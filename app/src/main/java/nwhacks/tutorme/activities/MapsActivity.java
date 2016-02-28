@@ -106,7 +106,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                             + ", " +  tutor.getSubjects()[1]
                             + ", " + tutor.getSubjects()[2]
                             + "\n"
-                            + "Rate: " + tutor.getRate()
+                            + "Rate: " + "$" + tutor.getRate() + "/hr"
                     ).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED))
             );
 
