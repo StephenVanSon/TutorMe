@@ -1,13 +1,15 @@
-package nwhacks.tutorme;
+package nwhacks.tutorme.activities;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
-public class InitialActivity extends AppCompatActivity {
+import nwhacks.tutorme.R;
+
+public class MapsActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_initial);
+        setContentView(R.layout.activity_maps);
     }
 }
