@@ -125,7 +125,8 @@
                 android:text="Sign-Up"
                 android:onClick="onGoToMapsClick"
                 android:id="@+id/tutor_signup"
-                android:textColor="#000000"
+                android:textColor="#FFFFFF"
+                android:background="#e13a3e"
 
                 />
 
