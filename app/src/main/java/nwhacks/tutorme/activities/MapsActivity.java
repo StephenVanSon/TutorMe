@@ -29,6 +29,7 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import nwhacks.tutorme.R;
+import nwhacks.tutorme.model.Tutor;
 import nwhacks.tutorme.utils.GPSTracker;
 
 
@@ -91,6 +92,8 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                 return info;
             }
         });
+
+
 
 
         for(Tutor tutor : Tutor.getTutorStore()){
