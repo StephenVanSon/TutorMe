@@ -122,12 +122,10 @@ public class InitialActivity extends AppCompatActivity {
 
                 @Override
                 public void onKeyExited(String s) {
-                    String test = s;
                 }
 
                 @Override
                 public void onKeyMoved(String s, GeoLocation geoLocation) {
-                    String test = s;
                 }
 
                 @Override
@@ -137,7 +135,7 @@ public class InitialActivity extends AppCompatActivity {
 
                 @Override
                 public void onGeoQueryError(FirebaseError firebaseError) {
-                    Log.e("FirebaseGeoqueryError", "an error occurred: " + firebaseError);
+
                 }
             });
 
