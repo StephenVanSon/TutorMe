@@ -79,6 +79,9 @@ public class InitialActivity extends AppCompatActivity {
                             String fullName = (String) dataCasted.get("fullName");
                             String rate = (String) dataCasted.get("rate");
                             ArrayList<String> subjects = (ArrayList<String>) dataCasted.get("subjects");
+
+
+
                         }
 
                     }
