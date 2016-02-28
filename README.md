@@ -1,8 +1,6 @@
 # TutorMe
 
-An Android app that connects students with tutors nearby.  
-
-![out]
+An Android app that connects students with tutors nearby. 
 
 Developed @ nwHacks 2016
 
