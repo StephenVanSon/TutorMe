@@ -65,7 +65,7 @@ public class InitialActivity extends AppCompatActivity {
 
         dataQuery.addGeoQueryEventListener(new GeoQueryEventListener() {
             @Override
-            public void onKeyEntered(String key, GeoLocation geoLocation) {
+            public void onKeyEntered(String key, final GeoLocation geoLocation) {
                 //plot things on the map as they come around
                 Firebase fb = rootReference.child("tutors").equalTo(key).getRef();
                 fb.addValueEventListener(new ValueEventListener() {
@@ -79,8 +79,14 @@ public class InitialActivity extends AppCompatActivity {
                             String fullName = (String) dataCasted.get("fullName");
                             String rate = (String) dataCasted.get("rate");
                             ArrayList<String> subjects = (ArrayList<String>) dataCasted.get("subjects");
+                            String[] subjectsArr = new String[subjects.size()];
+                            subjectsArr = subjects.toArray(subjectsArr);
+                            Location tutorLoc = new Location("");
+                            tutorLoc.setLongitude(geoLocation.longitude);
+                            tutorLoc.setLatitude(geoLocation.latitude);
 
-
+                            Tutor tutor = new Tutor(fullName, email, subjectsArr, rate, tutorLoc);
+                            Tutor.addToTutorStore(tutor);
 
                         }
 

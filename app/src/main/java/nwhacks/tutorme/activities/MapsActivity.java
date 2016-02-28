@@ -9,6 +9,8 @@ import android.support.v4.app.FragmentActivity;
 import com.google.android.gms.appindexing.Action;
 import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.maps.CameraUpdate;
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -16,6 +18,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import nwhacks.tutorme.R;
+import nwhacks.tutorme.model.Tutor;
 import nwhacks.tutorme.utils.GPSTracker;
 
 
@@ -35,15 +38,37 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         mapFragment.getMapAsync(this);
         GPSTracker gpsTracker = new GPSTracker(getApplicationContext());
 
+
         //get the users location
         loc = gpsTracker.getLocation(getApplicationContext());
+
+        LatLng coords = new LatLng(loc.getLatitude(), loc.getLongitude());
+        CameraUpdate myLoc = CameraUpdateFactory.newLatLngZoom(coords, 10);
+
     }
 
     @Override
     public void onMapReady(GoogleMap map) {
-        map.addMarker(new MarkerOptions()
-                .position(new LatLng(loc.getLatitude(), loc.getLongitude()))
-                .title("Marker"));
+        LatLng coords = new LatLng(loc.getLatitude(), loc.getLongitude());
+        CameraUpdate myLoc = CameraUpdateFactory.newLatLngZoom(coords, 10);
+        map.moveCamera(myLoc);
+        for(Tutor tutor : Tutor.getTutorStore()){
+            Location loc = tutor.getLocation();
+
+            map.addMarker(new MarkerOptions()
+                    .position(new LatLng(loc.getLatitude(), loc.getLongitude()))
+                    .title(tutor.getFullName())
+                    .snippet(tutor.getEmail() + "\n" +
+                            "Subjects: "
+                            + tutor.getSubjects()[0]
+                            + ", " +  tutor.getSubjects()[1]
+                            + ", " + tutor.getSubjects()[2]
+                            + "\n"
+                            + "Rate: " + tutor.getRate()
+                    )
+            );
+
+        }
     }
 
     @Override
