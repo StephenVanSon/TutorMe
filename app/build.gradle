@@ -10,7 +10,10 @@ android {
         targetSdkVersion 23
         versionCode 1
         versionName "1.0"
+<<<<<<< HEAD
         multiDexEnabled true
+=======
+>>>>>>> 0a9b76263e70031df6dbc16e06f4dbbabd4581b1
     }
     buildTypes {
         release {
@@ -25,5 +28,10 @@ dependencies {
     testCompile 'junit:junit:4.12'
     compile 'com.android.support:appcompat-v7:23.1.1'
     compile project(':firebase-client-android-2.5.2')
+<<<<<<< HEAD
     compile 'com.google.android.gms:play-services:8.4.0'
 }
+=======
+    compile project(':geofire-1.1.0')
+}
+>>>>>>> 0a9b76263e70031df6dbc16e06f4dbbabd4581b1

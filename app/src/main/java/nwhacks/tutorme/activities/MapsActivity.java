@@ -1,5 +1,6 @@
 package nwhacks.tutorme.activities;
 
+<<<<<<< HEAD
 import android.app.FragmentTransaction;
 import android.location.Location;
 import android.net.Uri;
@@ -31,11 +32,20 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
      * ATTENTION: This was auto-generated to implement the App Indexing API.
      * See https://g.co/AppIndexing/AndroidStudio for more information.
      */
+=======
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
+
+import nwhacks.tutorme.R;
+
+public class MapsActivity extends AppCompatActivity {
+>>>>>>> 0a9b76263e70031df6dbc16e06f4dbbabd4581b1
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
+<<<<<<< HEAD
         MapFragment mapFragment = (MapFragment) getFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
@@ -88,3 +98,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         );
     }
 }
+=======
+    }
+}
+>>>>>>> 0a9b76263e70031df6dbc16e06f4dbbabd4581b1
