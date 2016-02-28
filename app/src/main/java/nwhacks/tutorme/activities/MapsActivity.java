@@ -18,6 +18,8 @@ import android.widget.TextView;
 import com.google.android.gms.appindexing.Action;
 import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.maps.CameraUpdate;
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -52,11 +54,11 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     @Override
     public void onMapReady(GoogleMap map) {
-<<<<<<< HEAD
+
         map.addMarker(new MarkerOptions()
                 .position(new LatLng(loc.getLatitude(), loc.getLongitude()))
                 .title("Marker"));
-=======
+
         LatLng coords = new LatLng(loc.getLatitude(), loc.getLongitude());
         CameraUpdate myLoc = CameraUpdateFactory.newLatLngZoom(coords, 10);
         map.moveCamera(myLoc);
@@ -108,7 +110,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             );
 
         }
->>>>>>> refs/remotes/origin/master
+
     }
 
     @Override
