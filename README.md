@@ -6,7 +6,7 @@ Developed @ nwHacks 2016
 
 ##Installation and Usage
 
-To install and run, download repository and build the project in AndroidStudio. Then, either run an Android emaulator or with an Android Device attached, build and run the app. 
+To install and run, download repository and build the project in AndroidStudio. Then, either build and run the project in an Android emulator or run on an attached Android device. 
 
 ##Technologies Used
 Java, Firebase API, Google Maps API, AndroidStudio
