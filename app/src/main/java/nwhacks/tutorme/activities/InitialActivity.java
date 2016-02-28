@@ -66,7 +66,7 @@ public class InitialActivity extends AppCompatActivity {
         dataQuery.addGeoQueryEventListener(new GeoQueryEventListener() {
             @Override
             public void onKeyEntered(String key, GeoLocation geoLocation) {
-                //plot things on the map as they come around
+            //plot things on the map as they come around
                 Firebase fb = rootReference.child("tutors").equalTo(key).getRef();
                 fb.addValueEventListener(new ValueEventListener() {
                     @Override

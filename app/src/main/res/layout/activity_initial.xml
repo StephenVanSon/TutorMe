@@ -64,6 +64,7 @@
                 android:layout_width="124dp"
                 android:layout_height="wrap_content"
                 android:text="Login"
+                android:background="#e13a3e"
                 android:id="@+id/initial_login_button"
                 android:onClick="onLoginClick"
                 android:layout_gravity="center|bottom"
