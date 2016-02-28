@@ -4,8 +4,6 @@
 .DS_Store
 /build
 /captures
-.idea\
-.idea/
-.idea\misc.xml
-*.xml
-.idea/misc.xml
+.idea
+
+
