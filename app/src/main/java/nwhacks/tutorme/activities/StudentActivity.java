@@ -5,8 +5,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.firebase.client.Firebase;
+import com.firebase.client.FirebaseError;
+
+import java.util.Map;
 
 import nwhacks.tutorme.R;
 import nwhacks.tutorme.model.Student;
@@ -26,15 +30,29 @@ public class StudentActivity extends AppCompatActivity {
     public void onGoToMapClick(View view){
         EditText nameField = (EditText) findViewById(R.id.student_name);
         EditText emailField =  (EditText) findViewById(R.id.student_email);
+        EditText passwordField = (EditText) findViewById(R.id.student_password);
 
         String name = nameField.getText().toString();
         String email = emailField.getText().toString();
-
         Student student = new Student(email, name);
         Student.saveToFirebase(firebase, student);
 
-        Intent intent = new Intent(this, MapsActivity.class);
-        startActivity(intent);
+
+
+        firebase.createUser(email, passwordField.getText().toString(), new Firebase.ValueResultHandler<Map<String, Object>>() {
+            @Override
+            public void onSuccess(Map<String, Object> result) {
+                Intent intent = new Intent(getApplicationContext(), MapsActivity.class);
+                startActivity(intent);
+            }
+
+            @Override
+            public void onError(FirebaseError firebaseError) {
+                Toast.makeText(getApplicationContext(), "Error signing up, please try again.", Toast.LENGTH_LONG);
+            }
+        });
+
+
 
 
 

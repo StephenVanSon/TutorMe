@@ -6,12 +6,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 
+import com.firebase.client.AuthData;
 import com.firebase.client.Firebase;
 
 import nwhacks.tutorme.activities.MapsActivity;
 
 import android.util.Log;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.firebase.client.DataSnapshot;
@@ -154,8 +156,19 @@ public class InitialActivity extends AppCompatActivity {
     //switch anyway
     public void onLoginClick(View view)
     {
-        Intent intent = new Intent(getApplicationContext(), MapsActivity.class);
-        startActivity(intent);
+        EditText passwordField = (EditText) findViewById(R.id.initial_password);
+        EditText emailField = (EditText) findViewById(R.id.initial_email);
+        rootReference.authWithPassword(emailField.getText().toString(), passwordField.getText().toString(), new Firebase.AuthResultHandler() {
+            @Override
+            public void onAuthenticated(AuthData authData) {
+                Intent intent = new Intent(getApplicationContext(), MapsActivity.class);
+                startActivity(intent);
+            }
+            @Override
+            public void onAuthenticationError(FirebaseError firebaseError) {
+               Toast.makeText(getApplicationContext(), "Error logging in", Toast.LENGTH_LONG);
+            }
+        });
     }
 
     public void onSignUpAsStudentClick(View view)

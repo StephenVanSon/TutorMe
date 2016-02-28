@@ -6,9 +6,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.firebase.client.Firebase;
+import com.firebase.client.FirebaseError;
 import com.firebase.geofire.GeoFire;
+
+import java.util.Map;
 
 import nwhacks.tutorme.R;
 import nwhacks.tutorme.model.Tutor;
@@ -36,6 +40,7 @@ public class TutorActivity extends AppCompatActivity {
         EditText subject2Field = (EditText) findViewById(R.id.tutor_subject2);
         EditText subject3Field = (EditText) findViewById(R.id.tutor_subject3);
         EditText rateField = (EditText) findViewById(R.id.tutor_rate);
+        EditText passwordField = (EditText) findViewById(R.id.tutor_password);
 
         String name = usernameField.getText().toString();
         String email = emailField.getText().toString();
@@ -54,8 +59,21 @@ public class TutorActivity extends AppCompatActivity {
         Tutor tutor = new Tutor(name, email, subjects, rate, location);
         Tutor.saveToFirebase(geofire, firebase, tutor, location);
 
-        Intent intent = new Intent(this, MapsActivity.class);
-        startActivity(intent);
+        firebase.createUser(email, passwordField.getText().toString(), new Firebase.ValueResultHandler<Map<String, Object>>() {
+            @Override
+            public void onSuccess(Map<String, Object> result) {
+               Intent intent = new Intent(getApplicationContext(), MapsActivity.class);
+               startActivity(intent);
+            }
+
+            @Override
+            public void onError(FirebaseError firebaseError) {
+                Toast.makeText(getApplicationContext(), "There was an error signing up, please try again.", Toast.LENGTH_LONG);
+            }
+        });
+
+
+
 
 
 

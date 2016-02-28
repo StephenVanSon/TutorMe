@@ -41,10 +41,35 @@
             android:layout_gravity="center_horizontal"
             android:layout_height="wrap_content"
             android:inputType="textEmailAddress"
-            android:hint="Please Enter Your Email Adress:"
+            android:hint="Please Enter Your Email Address:"
             android:textColorHint="#FFFFFF"
             android:textColor="#FFFFFF"
             android:id="@+id/tutor_email"
+            />
+
+        <EditText
+            android:layout_width="300dp"
+            android:layout_marginTop="20dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_height="wrap_content"
+            android:inputType="textPassword"
+            android:hint="Please Enter A Password:"
+            android:textColorHint="#FFFFFF"
+            android:textColor="#FFFFFF"
+            android:id="@+id/tutor_password"
+            />
+
+        <EditText
+            android:layout_width="300dp"
+            android:layout_marginTop="30dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_height="wrap_content"
+            android:gravity="bottom"
+            android:inputType="numberDecimal"
+            android:hint="Please Enter Your Rate($/hr):"
+            android:textColorHint="#FFFFFF"
+            android:textColor="#FFFFFF"
+            android:id="@+id/tutor_rate"
             />
 
         <LinearLayout
@@ -89,33 +114,20 @@
 
 
 
-        <EditText
-            android:layout_width="300dp"
-            android:layout_marginTop="30dp"
-            android:layout_gravity="center_horizontal"
-            android:layout_height="wrap_content"
-            android:gravity="bottom"
-            android:inputType="numberDecimal"
-            android:hint="Please Enter Your Rate($/hr):"
-            android:textColorHint="#FFFFFF"
-            android:textColor="#FFFFFF"
-            android:id="@+id/tutor_rate"
-            />
-
     </LinearLayout>
 
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="0.3"
+        android:layout_weight="0.1"
         android:orientation="vertical"
         >
 
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1"
+            android:layout_weight="0.3"
             >
 
             <Button

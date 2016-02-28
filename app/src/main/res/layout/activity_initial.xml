@@ -41,7 +41,7 @@
                 android:id="@+id/initial_email"
                 android:textColor="#FFFFFF"
                 android:layout_gravity="center_horizontal"
-                android:hint="Please enter your email..."
+                android:hint="Please enter your email:"
                 android:textColorHint="#FFFFFF"
 
 
@@ -52,10 +52,10 @@
                 android:layout_marginTop="130dp"
                 android:layout_height="wrap_content"
                 android:inputType="textPassword"
-                android:ems="10"
+                android:ems="15"
                 android:id="@+id/initial_password"
                 android:layout_gravity="center_horizontal"
-                android:hint="Please enter your password..."
+                android:hint="Please enter your password:"
                 android:textColor="#FFFFFF"
                 android:textColorHint="#FFFFFF"
                 />
