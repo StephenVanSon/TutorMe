@@ -1,6 +1,12 @@
 package nwhacks.tutorme.model;
 
+import android.location.Location;
+
 import com.firebase.client.Firebase;
+import com.firebase.geofire.GeoFire;
+import com.firebase.geofire.GeoLocation;
+
+import java.util.UUID;
 
 /**
  * Created by Stephen on 2016-02-27.
@@ -10,15 +16,17 @@ public class Tutor {
     private String email;
     private String[] subjects;
     private String rate;
+    private Location location;
+    private UUID ID;
 
-    public Tutor(String fullName, String email, String[] subjects, String rate)
+    public Tutor(String fullName, String email, String[] subjects, String rate, Location location)
     {
         this.fullName = fullName;
         this.email = email;
         this.subjects = subjects;
         this.rate = rate;
-
-
+        this.location = location;
+        this.ID = UUID.randomUUID();
     }
 
 
@@ -55,8 +63,13 @@ public class Tutor {
     }
 
 
-    public static void saveToFirebase(Firebase db, String username, Tutor tutor){
-        Firebase tutorStore = db.child("tutors").child(username);
+
+    public static void saveToFirebase(GeoFire geoFire,Firebase db, Tutor tutor, Location location){
+        Firebase tutorStore = db.child("tutors").child(tutor.getFullName());
         tutorStore.setValue(tutor);
+        geoFire.setLocation(tutor.getFullName(), new GeoLocation(location.getLatitude(), location.getLongitude()));
     }
+
+
+
 }
