@@ -21,7 +21,7 @@
             android:textSize="45dp"
             android:textColor="#FFFFFF"
             android:gravity="center_horizontal"
-            android:id="@+id/tutor-banner"
+            android:id="@+id/tutor_banner"
             />
 
         <EditText
@@ -33,7 +33,7 @@
             android:hint="Please Enter Your Name:"
             android:textColorHint="#FFFFFF"
             android:textColor="#FFFFFF"
-            android:id="@+id/tutor-name"
+            android:id="@+id/tutor_name"
             />
         <EditText
             android:layout_width="300dp"
@@ -44,7 +44,7 @@
             android:hint="Please Enter Your Email Adress:"
             android:textColorHint="#FFFFFF"
             android:textColor="#FFFFFF"
-            android:id="@+id/tutor-email"
+            android:id="@+id/tutor_email"
             />
 
         <LinearLayout
@@ -59,7 +59,7 @@
             <EditText
                 android:layout_width="100dp"
                 android:layout_height="wrap_content"
-                android:id="@+id/tutor-subject1"
+                android:id="@+id/tutor_subject1"
                 android:hint="Subject 1"
                 android:textColorHint="#FFFFFF"
                 android:textColor="#FFFFFF"
@@ -68,7 +68,7 @@
             <EditText
                 android:layout_width="100dp"
                 android:layout_height="wrap_content"
-                android:id="@+id/tutor-subject2"
+                android:id="@+id/tutor_subject2"
                 android:hint="Subject 2"
                 android:textColorHint="#FFFFFF"
                 android:textColor="#FFFFFF"
@@ -77,7 +77,7 @@
             <EditText
                 android:layout_width="100dp"
                 android:layout_height="wrap_content"
-                android:id="@+id/tutor-subject3"
+                android:id="@+id/tutor_subject3"
                 android:hint="Subject 3"
                 android:textColorHint="#FFFFFF"
                 android:textColor="#FFFFFF"
@@ -99,7 +99,7 @@
             android:hint="Please Enter Your Rate($/hr):"
             android:textColorHint="#FFFFFF"
             android:textColor="#FFFFFF"
-            android:id="@+id/tutor-rate"
+            android:id="@+id/tutor_rate"
             />
 
     </LinearLayout>
@@ -114,8 +114,7 @@
 
         <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="
-            0dp"
+            android:layout_height="0dp"
             android:layout_weight="1"
             >
 
@@ -124,7 +123,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:text="Sign-Up"
-                android:id="@+id/tutor-signup"
+                android:id="@+id/tutor_signup"
                 android:textColor="#000000"
 
                 />

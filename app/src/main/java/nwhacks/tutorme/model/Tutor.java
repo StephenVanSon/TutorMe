@@ -15,7 +15,7 @@ public class Tutor {
     private String email;
     private String[] subjects;
     private String rate;
-
+    private Location location;
 
     public Tutor(String fullName, String email, String[] subjects, String rate, Location location)
     {
@@ -24,7 +24,7 @@ public class Tutor {
         this.subjects = subjects;
         this.rate = rate;
         this.location = location;
-        this.ID = UUID.randomUUID();
+
     }
 
 

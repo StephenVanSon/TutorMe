@@ -17,7 +17,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:id="@+id/student-banner"
+            android:id="@+id/student_banner"
             android:layout_marginTop="20dp"
             android:text="Student Sign-up"
             android:textColor="#FFFFFF"
@@ -32,7 +32,7 @@
             android:layout_marginTop="70dp"
             android:hint="Enter your name..."
             android:textColorHint="#FFFFFF"
-            android:id="@+id/student-name"
+            android:id="@+id/student_name"
             />
 
 
@@ -43,7 +43,7 @@
             android:layout_marginTop="60dp"
             android:hint="Enter your email..."
             android:textColorHint="#FFFFFF"
-            android:id="@+id/student-email"
+            android:id="@+id/student_email"
 
             />
 
@@ -70,7 +70,7 @@
                 android:text="Go to Map"
                 android:textAllCaps="false"
                 android:layout_gravity="center"
-                android:id="@+id/student-goto-map"
+                android:id="@+id/student_goto_map"
 
                 />
 
