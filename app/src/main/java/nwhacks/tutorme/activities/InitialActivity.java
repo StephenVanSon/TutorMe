@@ -60,7 +60,8 @@ public class InitialActivity extends AppCompatActivity {
         //get the users location
         Location loc = gpsTracker.getLocation(getApplicationContext());
 
-        GeoQuery dataQuery = geoFire.queryAtLocation(new GeoLocation(loc.getLatitude(), loc.getLongitude()), 2);
+        //query the database for tutors within a 5 kilometer radius
+        GeoQuery dataQuery = geoFire.queryAtLocation(new GeoLocation(loc.getLatitude(), loc.getLongitude()), 5);
 
 
         dataQuery.addGeoQueryEventListener(new GeoQueryEventListener() {
@@ -78,14 +79,32 @@ public class InitialActivity extends AppCompatActivity {
                             String email = (String) dataCasted.get("email");
                             String fullName = (String) dataCasted.get("fullName");
                             String rate = (String) dataCasted.get("rate");
+
                             ArrayList<String> subjects = (ArrayList<String>) dataCasted.get("subjects");
                             String[] subjectsArr = new String[subjects.size()];
                             subjectsArr = subjects.toArray(subjectsArr);
-                            Location tutorLoc = new Location("");
-                            tutorLoc.setLongitude(geoLocation.longitude);
-                            tutorLoc.setLatitude(geoLocation.latitude);
 
-                            Tutor tutor = new Tutor(fullName, email, subjectsArr, rate, tutorLoc);
+                            HashMap<String, Object> locationMap = (HashMap<String, Object>) dataCasted.get("location");
+
+                            Tutor tutor;
+                            if(locationMap != null)
+                            {
+                                double latitude = (double) locationMap.get("latitude");
+                                double longitude = (double) locationMap.get("longitude");
+                                Location tutorLoc = new Location("");
+                                tutorLoc.setLatitude(latitude);
+                                tutorLoc.setLongitude(longitude);
+
+                                tutor = new Tutor(fullName, email, subjectsArr, rate, tutorLoc);
+                            } else
+                            {
+                                Location tutorLoc = new Location("");
+                                tutorLoc.setLongitude(geoLocation.longitude);
+                                tutorLoc.setLatitude(geoLocation.latitude);
+                                tutor = new Tutor(fullName, email, subjectsArr, rate, tutorLoc);
+
+                            }
+
                             Tutor.addToTutorStore(tutor);
 
                         }

@@ -7,6 +7,7 @@ import com.firebase.client.Firebase;
 import com.firebase.geofire.GeoFire;
 import com.firebase.geofire.GeoLocation;
 
+import java.util.Arrays;
 import java.util.HashSet;
 
 /**
@@ -92,4 +93,28 @@ public class Tutor {
         geoFire.setLocation(tutor.getFullName(), new GeoLocation(location.getLatitude(), location.getLongitude()));
     }
 
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Tutor tutor = (Tutor) o;
+
+        if (!getFullName().equals(tutor.getFullName())) return false;
+        if (!getEmail().equals(tutor.getEmail())) return false;
+        // Probably incorrect - comparing Object[] arrays with Arrays.equals
+        if (!Arrays.equals(getSubjects(), tutor.getSubjects())) return false;
+        return getRate().equals(tutor.getRate());
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = getFullName().hashCode();
+        result = 31 * result + getEmail().hashCode();
+        result = 31 * result + Arrays.hashCode(getSubjects());
+        result = 31 * result + getRate().hashCode();
+        return result;
+    }
 }

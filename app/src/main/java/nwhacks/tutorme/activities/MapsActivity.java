@@ -28,6 +28,8 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import java.util.HashSet;
+
 import nwhacks.tutorme.R;
 import nwhacks.tutorme.model.Tutor;
 import nwhacks.tutorme.utils.GPSTracker;
@@ -49,21 +51,19 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         mapFragment.getMapAsync(this);
         GPSTracker gpsTracker = new GPSTracker(getApplicationContext());
 
-
         //get the users location
         loc = gpsTracker.getLocation(getApplicationContext());
-
-        LatLng coords = new LatLng(loc.getLatitude(), loc.getLongitude());
-        CameraUpdate myLoc = CameraUpdateFactory.newLatLngZoom(coords, 10);
 
     }
 
     @Override
     public void onMapReady(GoogleMap map) {
         LatLng coords = new LatLng(loc.getLatitude(), loc.getLongitude());
-        CameraUpdate myLoc = CameraUpdateFactory.newLatLngZoom(coords, 10);
+        CameraUpdate myLoc = CameraUpdateFactory.newLatLngZoom(coords, 13);
         map.moveCamera(myLoc);
-        map.setInfoWindowAdapter(new GoogleMap.InfoWindowAdapter() {
+
+
+        GoogleMap.InfoWindowAdapter customAdapter = new GoogleMap.InfoWindowAdapter() {
 
             @Override
             public View getInfoWindow(Marker arg0) {
@@ -72,12 +72,12 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
             @Override
             public View getInfoContents(Marker marker) {
-
                 LinearLayout info = new LinearLayout(getApplicationContext());
                 info.setOrientation(LinearLayout.VERTICAL);
 
                 TextView title = new TextView(getApplicationContext());
                 title.setTextColor(Color.BLACK);
+
                 title.setGravity(Gravity.CENTER);
                 title.setTypeface(null, Typeface.BOLD);
                 title.setText(marker.getTitle());
@@ -90,27 +90,35 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                 info.addView(snippet);
 
                 return info;
+
             }
-        });
+        };
 
+        map.setInfoWindowAdapter(customAdapter);
 
-        for(Tutor tutor : Tutor.getTutorStore()){
+        HashSet<Tutor> allTutors = Tutor.getTutorStore();
+        for(Tutor tutor : allTutors){
             Location loc = tutor.getLocation();
 
             map.addMarker(new MarkerOptions()
-                    .position(new LatLng(loc.getLatitude(), loc.getLongitude()))
-                    .title(tutor.getFullName())
-                    .snippet(tutor.getEmail() + "\n" +
-                            "Subjects: "
-                            + tutor.getSubjects()[0]
-                            + ", " +  tutor.getSubjects()[1]
-                            + ", " + tutor.getSubjects()[2]
-                            + "\n"
-                            + "Rate: " + "$" + tutor.getRate() + "/hr"
-                    ).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED))
+                            .position(new LatLng(loc.getLatitude(), loc.getLongitude()))
+                            .title(tutor.getFullName())
+                            .snippet(tutor.getEmail() + "\n" +
+                                            "Subjects: "
+                                            + tutor.getSubjects()[0]
+                                            + ", " + tutor.getSubjects()[1]
+                                            + ", " + tutor.getSubjects()[2]
+                                            + "\n"
+                                            + "Rate: " + "$" + tutor.getRate() + "/hr"
+                            )
             );
 
+
         }
+
+
+
+
     }
 
     @Override
