@@ -72,6 +72,8 @@
                 android:textAllCaps="false"
                 android:layout_gravity="center"
                 android:id="@+id/student_goto_map"
+                android:textColor="#FFFFFF"
+                android:background="#e13a3e"
 
                 />
 

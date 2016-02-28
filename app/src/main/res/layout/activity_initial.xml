@@ -69,6 +69,8 @@
                 android:onClick="onLoginClick"
                 android:layout_gravity="center|bottom"
                 android:textAllCaps="false"
+                android:background="#e13a3e"
+                android:textColor="#FFFFFF"
                 />
 
         </FrameLayout>
