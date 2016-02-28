@@ -6,3 +6,6 @@
 /captures
 .idea\
 .idea/
+.idea\misc.xml
+*.xml
+.idea/misc.xml
