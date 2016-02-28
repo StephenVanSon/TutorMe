@@ -18,7 +18,7 @@
             android:layout_width="wrap_content"
             android:layout_height="100dp"
             android:layout_marginTop="30dp"
-            android:id="@+id/banner"
+            android:id="@+id/initial_banner"
             android:src="@drawable/banner"
             android:layout_gravity="center"
             />
@@ -38,21 +38,22 @@
                 android:layout_height="wrap_content"
                 android:inputType="textEmailAddress"
                 android:ems="10"
-                android:id="@+id/email"
+                android:id="@+id/initial_email"
                 android:textColor="#FFFFFF"
                 android:layout_gravity="center_horizontal"
                 android:hint="Please enter your email..."
                 android:textColorHint="#FFFFFF"
 
+
                 />
 
             <EditText
                 android:layout_width="300dp"
-                android:layout_marginTop="100dp"
+                android:layout_marginTop="130dp"
                 android:layout_height="wrap_content"
                 android:inputType="textPassword"
                 android:ems="10"
-                android:id="@+id/password"
+                android:id="@+id/initial_password"
                 android:layout_gravity="center_horizontal"
                 android:hint="Please enter your password..."
                 android:textColor="#FFFFFF"
@@ -63,7 +64,7 @@
                 android:layout_width="124dp"
                 android:layout_height="wrap_content"
                 android:text="Login"
-                android:id="@+id/loginbutton"
+                android:id="@+id/initial_login_button"
                 android:layout_gravity="center|bottom"
                 android:textAllCaps="false"
                 />
@@ -84,9 +85,10 @@
         android:layout_width="wrap_content"
         android:layout_height="50dp"
         android:text="Sign Up As Tutor"
-        android:id="@+id/Tutorbutton"
+        android:id="@+id/initial_tutor_signup"
         android:layout_gravity="center_vertical|right"
         android:textAllCaps="false"
+
         />
 
 
@@ -94,7 +96,7 @@
         android:layout_width="wrap_content"
         android:layout_height="50dp"
         android:text="Sign Up As Student"
-        android:id="@+id/Studentbutton"
+        android:id="@+id/initial_student_signup"
         android:layout_gravity="center_vertical|left"
         android:textAllCaps="false"
         />

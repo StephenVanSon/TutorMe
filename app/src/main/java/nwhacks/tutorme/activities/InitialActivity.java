@@ -4,12 +4,12 @@ import android.content.Intent;
 import android.location.Location;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-<<<<<<< HEAD
+
 
 import com.firebase.client.Firebase;
 
 import nwhacks.tutorme.activities.MapsActivity;
-=======
+
 import android.util.Log;
 
 import com.firebase.client.DataSnapshot;
@@ -39,9 +39,9 @@ public class InitialActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_initial);
-        Firebase.setAndroidContext(this);
+        Firebase.setAndroidContext(getApplicationContext());
         //firebase database
-         Firebase rootReference = new Firebase("https://brilliant-inferno-9747.firebaseio.com/web/data");
+        Firebase rootReference = new Firebase("https://brilliant-inferno-9747.firebaseio.com/web/data");
 
 
         GeoFire geoFire = new GeoFire(rootReference);
@@ -61,30 +61,30 @@ public class InitialActivity extends AppCompatActivity {
             @Override
             public void onKeyEntered(String key, GeoLocation geoLocation) {
                 //plot things on the map as they come around
-                Firebase fb = rootReference.child("tutors").equalTo(key).getRef();
-                fb.addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-                        Map<String, Object> vals = (Map<String, Object>)dataSnapshot.getValue();
-                        Collection<Object> thisData = vals.values();
-                        for(Object data : thisData){
-                            HashMap dataCasted = (HashMap) data;
-                            String email = (String) dataCasted.get("email");
-                            String fullName = (String) dataCasted.get("fullName");
-                            String rate = (String) dataCasted.get("rate");
-                            ArrayList<String> subjects = (ArrayList<String>) dataCasted.get("subjects");
-
-
-
-                        }
-
-                    }
-
-                    @Override
-                    public void onCancelled(FirebaseError firebaseError) {
-
-                    }
-                });
+//                Firebase fb = rootReference.child("tutors").equalTo(key).getRef();
+//                fb.addValueEventListener(new ValueEventListener() {
+//                    @Override
+//                    public void onDataChange(DataSnapshot dataSnapshot) {
+//                        Map<String, Object> vals = (Map<String, Object>)dataSnapshot.getValue();
+//                        Collection<Object> thisData = vals.values();
+//                        for(Object data : thisData){
+//                            HashMap dataCasted = (HashMap) data;
+//                            String email = (String) dataCasted.get("email");
+//                            String fullName = (String) dataCasted.get("fullName");
+//                            String rate = (String) dataCasted.get("rate");
+//                            ArrayList<String> subjects = (ArrayList<String>) dataCasted.get("subjects");
+//
+//
+//
+//                        }
+//
+//                    }
+//
+//                    @Override
+//                    public void onCancelled(FirebaseError firebaseError) {
+//
+//                    }
+//                });
             }
 
             @Override
