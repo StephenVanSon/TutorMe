@@ -12,6 +12,7 @@ import nwhacks.tutorme.activities.MapsActivity;
 
 import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
@@ -60,88 +61,92 @@ public class InitialActivity extends AppCompatActivity {
         //get the users location
         Location loc = gpsTracker.getLocation(getApplicationContext());
 
-        //query the database for tutors within a 5 kilometer radius
-        GeoQuery dataQuery = geoFire.queryAtLocation(new GeoLocation(loc.getLatitude(), loc.getLongitude()), 5);
+        if(loc != null) {
+            //query the database for tutors within a 5 kilometer radius
+            GeoQuery dataQuery = geoFire.queryAtLocation(new GeoLocation(loc.getLatitude(), loc.getLongitude()), 5);
 
 
-        dataQuery.addGeoQueryEventListener(new GeoQueryEventListener() {
-            @Override
-            public void onKeyEntered(String key, final GeoLocation geoLocation) {
-                //plot things on the map as they come around
-                Firebase fb = rootReference.child("tutors").equalTo(key).getRef();
-                fb.addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-                        Map<String, Object> vals = (Map<String, Object>)dataSnapshot.getValue();
-                        Collection<Object> thisData = vals.values();
-                        for(Object data : thisData){
-                            HashMap dataCasted = (HashMap) data;
-                            String email = (String) dataCasted.get("email");
-                            String fullName = (String) dataCasted.get("fullName");
-                            String rate = (String) dataCasted.get("rate");
+            dataQuery.addGeoQueryEventListener(new GeoQueryEventListener() {
+                @Override
+                public void onKeyEntered(String key, final GeoLocation geoLocation) {
+                    //plot things on the map as they come around
+                    Firebase fb = rootReference.child("tutors").equalTo(key).getRef();
+                    fb.addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            Map<String, Object> vals = (Map<String, Object>) dataSnapshot.getValue();
+                            Collection<Object> thisData = vals.values();
+                            for (Object data : thisData) {
+                                HashMap dataCasted = (HashMap) data;
+                                String email = (String) dataCasted.get("email");
+                                String fullName = (String) dataCasted.get("fullName");
+                                String rate = (String) dataCasted.get("rate");
 
-                            ArrayList<String> subjects = (ArrayList<String>) dataCasted.get("subjects");
-                            String[] subjectsArr = new String[subjects.size()];
-                            subjectsArr = subjects.toArray(subjectsArr);
+                                ArrayList<String> subjects = (ArrayList<String>) dataCasted.get("subjects");
+                                String[] subjectsArr = new String[subjects.size()];
+                                subjectsArr = subjects.toArray(subjectsArr);
 
-                            HashMap<String, Object> locationMap = (HashMap<String, Object>) dataCasted.get("location");
+                                HashMap<String, Object> locationMap = (HashMap<String, Object>) dataCasted.get("location");
 
-                            Tutor tutor;
-                            if(locationMap != null)
-                            {
-                                double latitude = (double) locationMap.get("latitude");
-                                double longitude = (double) locationMap.get("longitude");
-                                Location tutorLoc = new Location("");
-                                tutorLoc.setLatitude(latitude);
-                                tutorLoc.setLongitude(longitude);
+                                Tutor tutor;
+                                if (locationMap != null) {
+                                    double latitude = (double) locationMap.get("latitude");
+                                    double longitude = (double) locationMap.get("longitude");
+                                    Location tutorLoc = new Location("");
+                                    tutorLoc.setLatitude(latitude);
+                                    tutorLoc.setLongitude(longitude);
 
-                                tutor = new Tutor(fullName, email, subjectsArr, rate, tutorLoc);
-                            } else
-                            {
-                                Location tutorLoc = new Location("");
-                                tutorLoc.setLongitude(geoLocation.longitude);
-                                tutorLoc.setLatitude(geoLocation.latitude);
-                                tutor = new Tutor(fullName, email, subjectsArr, rate, tutorLoc);
+                                    tutor = new Tutor(fullName, email, subjectsArr, rate, tutorLoc);
+                                } else {
+                                    Location tutorLoc = new Location("");
+                                    tutorLoc.setLongitude(geoLocation.longitude);
+                                    tutorLoc.setLatitude(geoLocation.latitude);
+                                    tutor = new Tutor(fullName, email, subjectsArr, rate, tutorLoc);
+
+                                }
+
+                                Tutor.addToTutorStore(tutor);
 
                             }
 
-                            Tutor.addToTutorStore(tutor);
-
                         }
 
-                    }
+                        @Override
+                        public void onCancelled(FirebaseError firebaseError) {
 
-                    @Override
-                    public void onCancelled(FirebaseError firebaseError) {
+                        }
+                    });
+                }
 
-                    }
-                });
-            }
+                @Override
+                public void onKeyExited(String s) {
+                    String test = s;
+                }
 
-            @Override
-            public void onKeyExited(String s) {
-                String test = s;
-            }
+                @Override
+                public void onKeyMoved(String s, GeoLocation geoLocation) {
+                    String test = s;
+                }
 
-            @Override
-            public void onKeyMoved(String s, GeoLocation geoLocation) {
-                String test = s;
-            }
+                @Override
+                public void onGeoQueryReady() {
 
-            @Override
-            public void onGeoQueryReady() {
+                }
 
-            }
-
-            @Override
-            public void onGeoQueryError(FirebaseError firebaseError) {
-                Log.e("FirebaseGeoqueryError","an error occurred: " + firebaseError);
-            }
-        });
+                @Override
+                public void onGeoQueryError(FirebaseError firebaseError) {
+                    Log.e("FirebaseGeoqueryError", "an error occurred: " + firebaseError);
+                }
+            });
 
 
+        }
+        else
+        {
+            Toast.makeText(getApplicationContext(), "Please turn on location to access TutorMe", Toast.LENGTH_LONG);
 
 
+        }
     }
 
 
