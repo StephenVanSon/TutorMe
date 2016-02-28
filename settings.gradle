@@ -1,1 +1,1 @@
-include ':app', ':firebase-client-android-2.5.2'
+include ':app', ':firebase-client-android-2.5.2', ':geofire-1.1.0'

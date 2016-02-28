@@ -9,11 +9,9 @@ public class Student {
     private String email;
     private String name;
 
-    public Student(String email, String name)
-    {
+    public Student(String email, String name) {
         this.email = email;
         this.name = name;
-
 
     }
 
@@ -33,9 +31,9 @@ public class Student {
         this.name = name;
     }
 
-    public static void saveToFirebase(Firebase db, String username, Student student)
+    public static void saveToFirebase(Firebase db, Student student)
     {
-        Firebase studentStore = db.child("students").child(username);
+        Firebase studentStore = db.child("students").child(student.getName());
         studentStore.setValue(student);
 
     }
