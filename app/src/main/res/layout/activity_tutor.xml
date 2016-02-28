@@ -123,6 +123,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:text="Sign-Up"
+                android:onClick="onGoToMapsClick"
                 android:id="@+id/tutor_signup"
                 android:textColor="#000000"
 

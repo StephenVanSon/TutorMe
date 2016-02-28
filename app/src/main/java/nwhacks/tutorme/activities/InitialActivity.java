@@ -11,6 +11,7 @@ import com.firebase.client.Firebase;
 import nwhacks.tutorme.activities.MapsActivity;
 
 import android.util.Log;
+import android.view.View;
 
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
@@ -30,29 +31,34 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import nwhacks.tutorme.R;
+import nwhacks.tutorme.model.Student;
 import nwhacks.tutorme.model.Tutor;
 import nwhacks.tutorme.utils.GPSTracker;
 
 public class InitialActivity extends AppCompatActivity {
 
+
+    Firebase rootReference;
+    GeoFire geoFire;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Firebase.setAndroidContext(this);
+        rootReference = new Firebase("https://brilliant-inferno-9747.firebaseio.com/web/data");
+        geoFire = new GeoFire(rootReference);
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_initial);
-        Firebase.setAndroidContext(getApplicationContext());
+        Firebase.setAndroidContext(this);
         //firebase database
-        Firebase rootReference = new Firebase("https://brilliant-inferno-9747.firebaseio.com/web/data");
+        //final Firebase rootReference = new Firebase("https://brilliant-inferno-9747.firebaseio.com/web/data");
 
 
-        GeoFire geoFire = new GeoFire(rootReference);
+        //GeoFire geoFire = new GeoFire(rootReference);
         GPSTracker gpsTracker = new GPSTracker(getApplicationContext());
 
         //get the users location
         Location loc = gpsTracker.getLocation(getApplicationContext());
-        //hardcoded tutor
-        Tutor tutor = new Tutor("John Smith", "johnsmith@johnsmith.com", new String[] {"math", "science"}, "$35/hr", loc);
-
-        Tutor.saveToFirebase(geoFire, rootReference, tutor, loc);
 
         GeoQuery dataQuery = geoFire.queryAtLocation(new GeoLocation(loc.getLatitude(), loc.getLongitude()), 2);
 
@@ -61,30 +67,30 @@ public class InitialActivity extends AppCompatActivity {
             @Override
             public void onKeyEntered(String key, GeoLocation geoLocation) {
                 //plot things on the map as they come around
-//                Firebase fb = rootReference.child("tutors").equalTo(key).getRef();
-//                fb.addValueEventListener(new ValueEventListener() {
-//                    @Override
-//                    public void onDataChange(DataSnapshot dataSnapshot) {
-//                        Map<String, Object> vals = (Map<String, Object>)dataSnapshot.getValue();
-//                        Collection<Object> thisData = vals.values();
-//                        for(Object data : thisData){
-//                            HashMap dataCasted = (HashMap) data;
-//                            String email = (String) dataCasted.get("email");
-//                            String fullName = (String) dataCasted.get("fullName");
-//                            String rate = (String) dataCasted.get("rate");
-//                            ArrayList<String> subjects = (ArrayList<String>) dataCasted.get("subjects");
-//
-//
-//
-//                        }
-//
-//                    }
-//
-//                    @Override
-//                    public void onCancelled(FirebaseError firebaseError) {
-//
-//                    }
-//                });
+                Firebase fb = rootReference.child("tutors").equalTo(key).getRef();
+                fb.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        Map<String, Object> vals = (Map<String, Object>)dataSnapshot.getValue();
+                        Collection<Object> thisData = vals.values();
+                        for(Object data : thisData){
+                            HashMap dataCasted = (HashMap) data;
+                            String email = (String) dataCasted.get("email");
+                            String fullName = (String) dataCasted.get("fullName");
+                            String rate = (String) dataCasted.get("rate");
+                            ArrayList<String> subjects = (ArrayList<String>) dataCasted.get("subjects");
+
+
+
+                        }
+
+                    }
+
+                    @Override
+                    public void onCancelled(FirebaseError firebaseError) {
+
+                    }
+                });
             }
 
             @Override
@@ -115,12 +121,26 @@ public class InitialActivity extends AppCompatActivity {
 
 
 
-
-    //to be called after signup/login
-    public void switchToMaps(){
+    //switch anyway
+    public void onLoginClick(View view)
+    {
         Intent intent = new Intent(getApplicationContext(), MapsActivity.class);
+        startActivity(intent);
+    }
+
+    public void onSignUpAsStudentClick(View view)
+    {
+        Intent intent = new Intent(this, StudentActivity.class);
+        startActivity(intent);
 
     }
+
+    public void onSignUpAsTutorClick(View view)
+    {
+        Intent intent = new Intent(this, TutorActivity.class);
+        startActivity(intent);
+    }
+
 
 
 }
