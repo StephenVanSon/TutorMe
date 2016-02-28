@@ -1,0 +1,2 @@
+configurations.create("default")
+artifacts.add("default", file('firebase-client-android-2.5.2.jar'))
