@@ -88,9 +88,11 @@ public class Tutor {
 
 
     public static void saveToFirebase(GeoFire geoFire,Firebase db, Tutor tutor, Location location){
-        Firebase tutorStore = db.child("tutors").child(tutor.getFullName());
-        tutorStore.setValue(tutor);
-        geoFire.setLocation(tutor.getFullName(), new GeoLocation(location.getLatitude(), location.getLongitude()));
+        if(location != null) {
+            Firebase tutorStore = db.child("tutors").child(tutor.getFullName());
+            tutorStore.setValue(tutor);
+            geoFire.setLocation(tutor.getFullName(), new GeoLocation(location.getLatitude(), location.getLongitude()));
+        }
     }
 
 

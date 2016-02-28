@@ -33,8 +33,8 @@ public class Student {
 
     public static void saveToFirebase(Firebase db, Student student)
     {
-        Firebase studentStore = db.child("students").child(student.getName());
-        studentStore.setValue(student);
+            Firebase studentStore = db.child("students").child(student.getName());
+            studentStore.setValue(student);
 
     }
 }
