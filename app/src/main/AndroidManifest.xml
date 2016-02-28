@@ -20,15 +20,12 @@
         <activity android:name=".activities.MapsActivity" />
         <activity android:name=".activities.StudentActivity" />
         <activity android:name=".activities.TutorActivity" />
-<<<<<<< HEAD
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyBj7AIamOkl2tynPJDwfEf_q-H74ygAhBA"/>
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
-=======
->>>>>>> 0a9b76263e70031df6dbc16e06f4dbbabd4581b1
 
     </application>
     <uses-permission android:name="android.permission.INTERNET" />

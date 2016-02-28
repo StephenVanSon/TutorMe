@@ -29,8 +29,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
-
->>>>>>> 0a9b76263e70031df6dbc16e06f4dbbabd4581b1
 import nwhacks.tutorme.R;
 import nwhacks.tutorme.model.Tutor;
 import nwhacks.tutorme.utils.GPSTracker;
@@ -43,15 +41,7 @@ public class InitialActivity extends AppCompatActivity {
         setContentView(R.layout.activity_initial);
         Firebase.setAndroidContext(this);
         //firebase database
-<<<<<<< HEAD
-        Firebase rootReference = new Firebase("https://brilliant-inferno-9747.firebaseio.com/web/data");
-
-        //hardcoded tutor
-        Tutor tutor = new Tutor("John Smith", "johnsmith@johnsmith.com", new String[] {"math", "science"}, "$35/hr");
-        Intent hello = new Intent(getApplicationContext(), MapsActivity.class);
-        startActivity(hello);
-=======
-        final Firebase rootReference = new Firebase("https://brilliant-inferno-9747.firebaseio.com/web/data");
+         Firebase rootReference = new Firebase("https://brilliant-inferno-9747.firebaseio.com/web/data");
 
 
         GeoFire geoFire = new GeoFire(rootReference);
@@ -120,8 +110,6 @@ public class InitialActivity extends AppCompatActivity {
 
 
 
-
->>>>>>> 0a9b76263e70031df6dbc16e06f4dbbabd4581b1
 
     }
 
