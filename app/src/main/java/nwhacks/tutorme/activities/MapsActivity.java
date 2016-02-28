@@ -1,10 +1,19 @@
 package nwhacks.tutorme.activities;
 import android.app.FragmentTransaction;
+import android.graphics.Bitmap;
+import android.graphics.Color;
+import android.graphics.Typeface;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.LevelListDrawable;
 import android.location.Location;
 import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.view.Gravity;
+import android.view.View;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.google.android.gms.appindexing.Action;
 import com.google.android.gms.appindexing.AppIndex;
@@ -14,7 +23,9 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import nwhacks.tutorme.R;
@@ -52,6 +63,37 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         LatLng coords = new LatLng(loc.getLatitude(), loc.getLongitude());
         CameraUpdate myLoc = CameraUpdateFactory.newLatLngZoom(coords, 10);
         map.moveCamera(myLoc);
+        map.setInfoWindowAdapter(new GoogleMap.InfoWindowAdapter() {
+
+            @Override
+            public View getInfoWindow(Marker arg0) {
+                return null;
+            }
+
+            @Override
+            public View getInfoContents(Marker marker) {
+
+                LinearLayout info = new LinearLayout(getApplicationContext());
+                info.setOrientation(LinearLayout.VERTICAL);
+
+                TextView title = new TextView(getApplicationContext());
+                title.setTextColor(Color.BLACK);
+                title.setGravity(Gravity.CENTER);
+                title.setTypeface(null, Typeface.BOLD);
+                title.setText(marker.getTitle());
+
+                TextView snippet = new TextView(getApplicationContext());
+                snippet.setTextColor(Color.GRAY);
+                snippet.setText(marker.getSnippet());
+
+                info.addView(title);
+                info.addView(snippet);
+
+                return info;
+            }
+        });
+
+
         for(Tutor tutor : Tutor.getTutorStore()){
             Location loc = tutor.getLocation();
 
@@ -65,7 +107,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                             + ", " + tutor.getSubjects()[2]
                             + "\n"
                             + "Rate: " + tutor.getRate()
-                    )
+                    ).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED))
             );
 
         }
