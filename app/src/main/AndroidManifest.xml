@@ -20,7 +20,9 @@
         <activity android:name=".activities.MapsActivity" />
         <activity android:name=".activities.StudentActivity" />
         <activity android:name=".activities.TutorActivity" />
-        <uses-permission android:name="android.permission.INTERNET" />
-    </application>
 
+    </application>
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
 </manifest>
