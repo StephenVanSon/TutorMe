@@ -1,7 +1,9 @@
-package nwhacks.tutorme;
+package nwhacks.tutorme.activities;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+
+import nwhacks.tutorme.R;
 
 public class TutorActivity extends AppCompatActivity {
 
