@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="firebase-client-android-2.5.2.firebase-client-android-2.5.2">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/firebase-client-android-2.5.2/firebase-client-android-2.5.2.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
