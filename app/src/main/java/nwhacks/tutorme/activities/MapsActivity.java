@@ -49,10 +49,13 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         setContentView(R.layout.activity_maps);
         MapFragment mapFragment = (MapFragment) getFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
-        GPSTracker gpsTracker = new GPSTracker(getApplicationContext());
+        Bundle extras = getIntent().getExtras();
 
-        //get the users location
-        loc = gpsTracker.getLocation(getApplicationContext());
+        double lat = extras.getDouble("locLat");
+        double locLong = extras.getDouble("locLong");
+        loc = new Location("");
+        loc.setLatitude(lat);
+        loc.setLongitude(locLong);
 
     }
 

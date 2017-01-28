@@ -31,7 +31,7 @@ dependencies {
     compile 'com.android.support:appcompat-v7:23.1.1'
     compile 'com.firebase:firebase-client-android:2.5.2+'
     compile 'com.firebase:geofire:1.1.0+'
-    compile 'com.google.android.gms:play-services:8.4.0'
+    compile 'com.google.android.gms:play-services:10.0.1'
 }
 
 

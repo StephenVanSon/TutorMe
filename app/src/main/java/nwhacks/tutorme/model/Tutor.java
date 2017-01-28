@@ -13,7 +13,7 @@ import java.util.HashSet;
 /**
  * Created by Stephen on 2016-02-27.
  */
-public class Tutor {
+public class Tutor implements User {
     private String fullName;
     private String email;
     private String[] subjects;
