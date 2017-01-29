@@ -32,7 +32,6 @@ public class InitialActivity extends AppCompatActivity  implements GoogleApiClie
 
 
     Firebase rootReference;
-    GeoFire geoFire;
     Location mLastLocation;
     GoogleApiClient mGoogleApiClient;
 
@@ -41,6 +40,7 @@ public class InitialActivity extends AppCompatActivity  implements GoogleApiClie
         Firebase.setAndroidContext(this);
 
         DbConnection.initDBConnection();
+        rootReference = DbConnection.getRootReference();
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_initial);
@@ -91,10 +91,13 @@ public class InitialActivity extends AppCompatActivity  implements GoogleApiClie
     {
         EditText passwordField = (EditText) findViewById(R.id.initial_password);
         EditText emailField = (EditText) findViewById(R.id.initial_email);
+
         rootReference.authWithPassword(emailField.getText().toString(), passwordField.getText().toString(), new Firebase.AuthResultHandler() {
             @Override
             public void onAuthenticated(AuthData authData) {
                 Intent intent = new Intent(getApplicationContext(), MapsActivity.class);
+                intent.putExtra("locLat",mLastLocation.getLatitude());
+                intent.putExtra("locLong", mLastLocation.getLongitude());
                 startActivity(intent);
             }
             @Override
