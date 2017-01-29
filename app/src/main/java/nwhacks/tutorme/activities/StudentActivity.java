@@ -19,6 +19,7 @@ import com.google.android.gms.location.LocationServices;
 
 import java.util.Map;
 
+import nwhacks.tutorme.Database.TutorConnection;
 import nwhacks.tutorme.R;
 import nwhacks.tutorme.model.Student;
 
@@ -54,6 +55,17 @@ public class StudentActivity extends AppCompatActivity implements GoogleApiClien
         String name = nameField.getText().toString();
         String email = emailField.getText().toString();
 
+        //attempt to getlast location if its null
+        if(mLastLocation == null){
+            if ( ContextCompat.checkSelfPermission( this, android.Manifest.permission.ACCESS_COARSE_LOCATION ) != PackageManager.PERMISSION_GRANTED ) {
+
+                ActivityCompat.requestPermissions( this, new String[] {  android.Manifest.permission.ACCESS_COARSE_LOCATION  }, 1);
+            }
+
+            mLastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
+
+        }
+
         if(mLastLocation == null) return;
         final Student student = new Student(email, name, mLastLocation);
         Student.saveToFirebase(firebase, student);
@@ -66,6 +78,7 @@ public class StudentActivity extends AppCompatActivity implements GoogleApiClien
                 Intent intent = new Intent(getApplicationContext(), MapsActivity.class);
                 intent.putExtra("locLat", student.getLocation().getLatitude());
                 intent.putExtra("locLong", student.getLocation().getLongitude());
+
                 startActivity(intent);
             }
 
@@ -75,6 +88,18 @@ public class StudentActivity extends AppCompatActivity implements GoogleApiClien
             }
         });
 
+    }
+
+    @Override
+    protected void onStart(){
+        mGoogleApiClient.connect();
+        super.onStart();
+    }
+
+    @Override
+    protected void onStop(){
+        mGoogleApiClient.disconnect();
+        super.onStop();
     }
 
 
@@ -91,11 +116,12 @@ public class StudentActivity extends AppCompatActivity implements GoogleApiClien
 
     @Override
     public void onConnectionSuspended(int suspended){
-
+        int test = 5;
     }
 
     @Override
     public void onConnectionFailed(ConnectionResult result){
 
+        int test = 5;
     }
 }

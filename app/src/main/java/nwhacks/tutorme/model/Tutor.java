@@ -39,6 +39,10 @@ public class Tutor implements User {
 
     }
 
+    public static boolean isTutorStorePopulated(){
+        return tutorStore != null;
+    }
+
     public static void addToTutorStore(Tutor tutor)
     {
         HashSet<Tutor> store = getTutorStore();

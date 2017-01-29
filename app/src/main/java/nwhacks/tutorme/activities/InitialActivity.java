@@ -1,7 +1,10 @@
 package nwhacks.tutorme.activities;
 
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.location.Location;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
@@ -9,6 +12,8 @@ import android.os.Bundle;
 import com.firebase.client.AuthData;
 import com.firebase.client.Firebase;
 
+import nwhacks.tutorme.Database.DbConnection;
+import nwhacks.tutorme.Database.TutorConnection;
 import nwhacks.tutorme.activities.MapsActivity;
 
 import android.util.Log;
@@ -25,6 +30,9 @@ import com.firebase.geofire.GeoFire;
 import com.firebase.geofire.GeoLocation;
 import com.firebase.geofire.GeoQuery;
 import com.firebase.geofire.GeoQueryEventListener;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.location.LocationServices;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -38,108 +46,53 @@ import nwhacks.tutorme.model.Student;
 import nwhacks.tutorme.model.Tutor;
 import nwhacks.tutorme.utils.GPSTracker;
 
-public class InitialActivity extends AppCompatActivity {
+public class InitialActivity extends AppCompatActivity  implements GoogleApiClient.OnConnectionFailedListener, GoogleApiClient.ConnectionCallbacks {
 
 
     Firebase rootReference;
     GeoFire geoFire;
+    Location mLastLocation;
+    GoogleApiClient mGoogleApiClient;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Firebase.setAndroidContext(this);
-        rootReference = new Firebase("https://brilliant-inferno-9747.firebaseio.com/web/data");
-        geoFire = new GeoFire(rootReference);
+
+        DbConnection.initDBConnection();
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_initial);
         Firebase.setAndroidContext(this);
-        //firebase database
-        //final Firebase rootReference = new Firebase("https://brilliant-inferno-9747.firebaseio.com/web/data");
 
 
-        //GeoFire geoFire = new GeoFire(rootReference);
-        GPSTracker gpsTracker = new GPSTracker(getApplicationContext());
-
-        //get the users location
-        Location loc = gpsTracker.getLocation(getApplicationContext());
-
-        if(loc != null) {
-            //query the database for tutors within a 5 kilometer radius
-            GeoQuery dataQuery = geoFire.queryAtLocation(new GeoLocation(loc.getLatitude(), loc.getLongitude()), 5);
 
 
-            dataQuery.addGeoQueryEventListener(new GeoQueryEventListener() {
-                @Override
-                public void onKeyEntered(String key, final GeoLocation geoLocation) {
-                    //plot things on the map as they come around
-                    Firebase fb = rootReference.child("tutors").equalTo(key).getRef();
-                    fb.addValueEventListener(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(DataSnapshot dataSnapshot) {
-                            Map<String, Object> vals = (Map<String, Object>) dataSnapshot.getValue();
-                            Collection<Object> thisData = vals.values();
-                            for (Object data : thisData) {
-                                HashMap dataCasted = (HashMap) data;
-                                String email = (String) dataCasted.get("email");
-                                String fullName = (String) dataCasted.get("fullName");
-                                String rate = (String) dataCasted.get("rate");
 
-                                ArrayList<String> subjects = (ArrayList<String>) dataCasted.get("subjects");
-                                String[] subjectsArr = new String[subjects.size()];
-                                subjectsArr = subjects.toArray(subjectsArr);
-
-                                HashMap<String, Object> locationMap = (HashMap<String, Object>) dataCasted.get("location");
-
-                                Tutor tutor;
-                                if (locationMap != null) {
-                                    double latitude = (double) locationMap.get("latitude");
-                                    double longitude = (double) locationMap.get("longitude");
-                                    Location tutorLoc = new Location("");
-                                    tutorLoc.setLatitude(latitude);
-                                    tutorLoc.setLongitude(longitude);
-
-                                    tutor = new Tutor(fullName, email, subjectsArr, rate, tutorLoc);
-                                } else {
-                                    Location tutorLoc = new Location("");
-                                    tutorLoc.setLongitude(geoLocation.longitude);
-                                    tutorLoc.setLatitude(geoLocation.latitude);
-                                    tutor = new Tutor(fullName, email, subjectsArr, rate, tutorLoc);
-
-                                }
-
-                                Tutor.addToTutorStore(tutor);
-
-                            }
-
-                        }
-
-                        @Override
-                        public void onCancelled(FirebaseError firebaseError) {
-
-                        }
-                    });
-                }
-
-                @Override
-                public void onKeyExited(String s) {
-                }
-
-                @Override
-                public void onKeyMoved(String s, GeoLocation geoLocation) {
-                }
-
-                @Override
-                public void onGeoQueryReady() {
-
-                }
-
-                @Override
-                public void onGeoQueryError(FirebaseError firebaseError) {
-
-                }
-            });
+        if(mGoogleApiClient == null){
+            mGoogleApiClient = new GoogleApiClient.Builder(this)
+                    .addConnectionCallbacks(this)
+                    .addOnConnectionFailedListener(this)
+                    .addApi(LocationServices.API)
+                    .build();
 
 
+
+        }
+
+        //attempt to getlast location if its null
+        if(mLastLocation == null){
+            if ( ContextCompat.checkSelfPermission( this, android.Manifest.permission.ACCESS_COARSE_LOCATION ) != PackageManager.PERMISSION_GRANTED ) {
+
+                ActivityCompat.requestPermissions( this, new String[] {  android.Manifest.permission.ACCESS_COARSE_LOCATION  }, 1);
+            }
+
+            mLastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
+
+        }
+
+
+        if(mLastLocation != null && !Tutor.isTutorStorePopulated()) {
+            TutorConnection.PopulateTutorsFromDB(mLastLocation);
         }
         else
         {
@@ -180,6 +133,42 @@ public class InitialActivity extends AppCompatActivity {
     {
         Intent intent = new Intent(this, TutorActivity.class);
         startActivity(intent);
+    }
+
+    @Override
+    public void onConnected(Bundle connectionHint){
+        if ( ContextCompat.checkSelfPermission( this, android.Manifest.permission.ACCESS_COARSE_LOCATION ) != PackageManager.PERMISSION_GRANTED ) {
+
+            ActivityCompat.requestPermissions( this, new String[] {  android.Manifest.permission.ACCESS_COARSE_LOCATION  }, 1);
+        }
+
+        mLastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
+
+        if(mLastLocation != null)
+            TutorConnection.PopulateTutorsFromDB(mLastLocation);
+    }
+
+
+    @Override
+    public void onConnectionSuspended(int suspended){
+        int test = 5;
+    }
+
+    @Override
+    public void onConnectionFailed(ConnectionResult result){
+        int tesst =4;
+    }
+
+    @Override
+    protected void onStart(){
+        mGoogleApiClient.connect();
+        super.onStart();
+    }
+
+    @Override
+    protected void onStop(){
+        mGoogleApiClient.disconnect();
+        super.onStop();
     }
 
 

@@ -21,6 +21,7 @@ import com.google.android.gms.common.api.GoogleApiClient.ConnectionCallbacks;
 
 import java.util.Map;
 
+import nwhacks.tutorme.Database.TutorConnection;
 import nwhacks.tutorme.R;
 import nwhacks.tutorme.model.Tutor;
 import nwhacks.tutorme.utils.GPSTracker;
@@ -88,7 +89,21 @@ public class TutorActivity extends AppCompatActivity implements ConnectionCallba
         String rate = rateField.getText().toString();
 
 
+        //attempt to getlast location if its null
+        if(mLastLocation == null){
+            if ( ContextCompat.checkSelfPermission( this, android.Manifest.permission.ACCESS_COARSE_LOCATION ) != PackageManager.PERMISSION_GRANTED ) {
+
+                ActivityCompat.requestPermissions( this, new String[] {  android.Manifest.permission.ACCESS_COARSE_LOCATION  }, 1);
+            }
+
+            mLastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
+
+        }
+
         if(mLastLocation == null) return;
+
+
+
         final Tutor tutor = new Tutor(name, email, subjects, rate, mLastLocation);
         Tutor.saveToFirebase(geofire, firebase, tutor, mLastLocation);
 
@@ -98,12 +113,14 @@ public class TutorActivity extends AppCompatActivity implements ConnectionCallba
                Intent intent = new Intent(getApplicationContext(), MapsActivity.class);
                intent.putExtra("locLat", tutor.getLocation().getLatitude());
                intent.putExtra("locLong", tutor.getLocation().getLongitude());
+
+
                startActivity(intent);
             }
 
             @Override
             public void onError(FirebaseError firebaseError) {
-                Toast.makeText(getApplicationContext(), "There was an error signing up, please try again.", Toast.LENGTH_LONG);
+                Toast.makeText(getApplicationContext(), firebaseError.getMessage(), Toast.LENGTH_LONG);
             }
         });
 
