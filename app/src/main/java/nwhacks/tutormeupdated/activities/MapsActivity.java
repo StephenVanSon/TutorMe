@@ -1,38 +1,30 @@
-package nwhacks.tutorme.activities;
+package nwhacks.tutormeupdated.activities;
 import android.app.FragmentTransaction;
-import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.Typeface;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.LevelListDrawable;
 import android.location.Location;
 import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.google.android.gms.appindexing.Action;
-import com.google.android.gms.appindexing.AppIndex;
-import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.HashSet;
 
-import nwhacks.tutorme.R;
-import nwhacks.tutorme.model.Tutor;
-import nwhacks.tutorme.utils.GPSTracker;
+import nwhacks.tutormeupdated.R;
+import nwhacks.tutormeupdated.model.Tutor;
 
 
 public class MapsActivity extends AppCompatActivity implements OnMapReadyCallback {
@@ -138,7 +130,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                 // Otherwise, set the URL to null.
                 Uri.parse("http://host/path"),
                 // TODO: Make sure this auto-generated app deep link URI is correct.
-                Uri.parse("android-app://nwhacks.tutorme/http/host/path")
+                Uri.parse("android-app://nwhacks.tutormeupdated/http/host/path")
         );
     }
 
@@ -156,7 +148,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                 // Otherwise, set the URL to null.
                 Uri.parse("http://host/path"),
                 // TODO: Make sure this auto-generated app deep link URI is correct.
-                Uri.parse("android-app://nwhacks.tutorme/http/host/path")
+                Uri.parse("android-app://nwhacks.tutormeupdated/http/host/path")
         );
     }
 }

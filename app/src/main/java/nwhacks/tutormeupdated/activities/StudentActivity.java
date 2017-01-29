@@ -1,4 +1,4 @@
-package nwhacks.tutorme.activities;
+package nwhacks.tutormeupdated.activities;
 
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -13,32 +13,26 @@ import android.widget.Toast;
 
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
-import com.firebase.geofire.GeoFire;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.common.api.GoogleApiClient.ConnectionCallbacks;
 
 import java.util.Map;
 
-import nwhacks.tutorme.Database.TutorConnection;
-import nwhacks.tutorme.R;
-import nwhacks.tutorme.model.Tutor;
-import nwhacks.tutorme.utils.GPSTracker;
+import nwhacks.tutormeupdated.R;
+import nwhacks.tutormeupdated.model.Student;
 
-public class TutorActivity extends AppCompatActivity implements ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
-
+public class StudentActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener, GoogleApiClient.ConnectionCallbacks {
     Firebase firebase;
-    GeoFire geofire;
-    GoogleApiClient mGoogleApiClient;
     Location mLastLocation;
-
+    GoogleApiClient mGoogleApiClient;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        super.onCreate(savedInstanceState);
         Firebase.setAndroidContext(this);
         firebase = new Firebase("https://brilliant-inferno-9747.firebaseio.com/web/data");
-        geofire = new GeoFire(firebase);
         if(mGoogleApiClient == null){
             mGoogleApiClient = new GoogleApiClient.Builder(this)
                     .addConnectionCallbacks(this)
@@ -48,8 +42,51 @@ public class TutorActivity extends AppCompatActivity implements ConnectionCallba
 
         }
 
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_tutor);
+        setContentView(R.layout.activity_student);
+    }
+
+
+    public void onGoToMapClick(View view){
+        EditText nameField = (EditText) findViewById(R.id.student_name);
+        EditText emailField =  (EditText) findViewById(R.id.student_email);
+        EditText passwordField = (EditText) findViewById(R.id.student_password);
+
+        String name = nameField.getText().toString();
+        String email = emailField.getText().toString();
+
+        //attempt to getlast location if its null
+        if(mLastLocation == null){
+            if ( ContextCompat.checkSelfPermission( this, android.Manifest.permission.ACCESS_COARSE_LOCATION ) != PackageManager.PERMISSION_GRANTED ) {
+
+                ActivityCompat.requestPermissions( this, new String[] {  android.Manifest.permission.ACCESS_COARSE_LOCATION  }, 1);
+            }
+
+            mLastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
+
+        }
+
+        if(mLastLocation == null) return;
+        final Student student = new Student(email, name, mLastLocation);
+        Student.saveToFirebase(firebase, student);
+
+
+
+        firebase.createUser(email, passwordField.getText().toString(), new Firebase.ValueResultHandler<Map<String, Object>>() {
+            @Override
+            public void onSuccess(Map<String, Object> result) {
+                Intent intent = new Intent(getApplicationContext(), MapsActivity.class);
+                intent.putExtra("locLat", student.getLocation().getLatitude());
+                intent.putExtra("locLong", student.getLocation().getLongitude());
+
+                startActivity(intent);
+            }
+
+            @Override
+            public void onError(FirebaseError firebaseError) {
+                Toast.makeText(getApplicationContext(), "Error signing up, please try again.", Toast.LENGTH_LONG);
+            }
+        });
+
     }
 
     @Override
@@ -65,67 +102,6 @@ public class TutorActivity extends AppCompatActivity implements ConnectionCallba
     }
 
 
-    public void onGoToMapsClick(View view)
-    {
-        EditText usernameField = (EditText) findViewById(R.id.tutor_name);
-        EditText emailField = (EditText) findViewById(R.id.tutor_email);
-        EditText subject1Field = (EditText) findViewById(R.id.tutor_subject1);
-        EditText subject2Field = (EditText) findViewById(R.id.tutor_subject2);
-        EditText subject3Field = (EditText) findViewById(R.id.tutor_subject3);
-        EditText rateField = (EditText) findViewById(R.id.tutor_rate);
-        EditText passwordField = (EditText) findViewById(R.id.tutor_password);
-
-        String name = usernameField.getText().toString();
-        String email = emailField.getText().toString();
-        String[] subjects = new String[]
-         {
-                 subject1Field.getText().toString(),
-                 subject2Field.getText().toString(),
-                 subject3Field.getText().toString()
-
-        };
-
-
-        String rate = rateField.getText().toString();
-
-
-        //attempt to getlast location if its null
-        if(mLastLocation == null){
-            if ( ContextCompat.checkSelfPermission( this, android.Manifest.permission.ACCESS_COARSE_LOCATION ) != PackageManager.PERMISSION_GRANTED ) {
-
-                ActivityCompat.requestPermissions( this, new String[] {  android.Manifest.permission.ACCESS_COARSE_LOCATION  }, 1);
-            }
-
-            mLastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
-
-        }
-
-        if(mLastLocation == null) return;
-
-
-
-        final Tutor tutor = new Tutor(name, email, subjects, rate, mLastLocation);
-        Tutor.saveToFirebase(geofire, firebase, tutor, mLastLocation);
-
-        firebase.createUser(email, passwordField.getText().toString(), new Firebase.ValueResultHandler<Map<String, Object>>() {
-            @Override
-            public void onSuccess(Map<String, Object> result) {
-               Intent intent = new Intent(getApplicationContext(), MapsActivity.class);
-               intent.putExtra("locLat", tutor.getLocation().getLatitude());
-               intent.putExtra("locLong", tutor.getLocation().getLongitude());
-
-
-               startActivity(intent);
-            }
-
-            @Override
-            public void onError(FirebaseError firebaseError) {
-                Toast.makeText(getApplicationContext(), firebaseError.getMessage(), Toast.LENGTH_LONG);
-            }
-        });
-
-    }
-
     @Override
     public void onConnected(Bundle connectionHint){
         if ( ContextCompat.checkSelfPermission( this, android.Manifest.permission.ACCESS_COARSE_LOCATION ) != PackageManager.PERMISSION_GRANTED ) {
@@ -139,11 +115,12 @@ public class TutorActivity extends AppCompatActivity implements ConnectionCallba
 
     @Override
     public void onConnectionSuspended(int suspended){
-
+        int test = 5;
     }
 
     @Override
     public void onConnectionFailed(ConnectionResult result){
 
+        int test = 5;
     }
 }

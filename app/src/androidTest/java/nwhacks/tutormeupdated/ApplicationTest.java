@@ -1,4 +1,4 @@
-package nwhacks.tutorme;
+package nwhacks.tutormeupdated;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;

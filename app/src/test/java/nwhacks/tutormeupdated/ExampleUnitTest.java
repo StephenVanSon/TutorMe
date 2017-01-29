@@ -1,8 +1,6 @@
-package nwhacks.tutorme;
+package nwhacks.tutormeupdated;
 
 import org.junit.Test;
-
-import dalvik.annotation.TestTargetClass;
 
 import static org.junit.Assert.*;
 

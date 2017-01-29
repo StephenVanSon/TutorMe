@@ -1,4 +1,4 @@
-package nwhacks.tutorme.model;
+package nwhacks.tutormeupdated.model;
 
 import android.location.Location;
 

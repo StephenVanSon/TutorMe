@@ -1,9 +1,8 @@
-package nwhacks.tutorme.model;
+package nwhacks.tutormeupdated.model;
 
 import com.firebase.client.Firebase;
 import android.location.Location;
 
-import com.firebase.client.Firebase;
 import com.firebase.geofire.GeoFire;
 import com.firebase.geofire.GeoLocation;
 

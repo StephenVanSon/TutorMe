@@ -1,4 +1,4 @@
-package nwhacks.tutorme.Database;
+package nwhacks.tutormeupdated.Database;
 
 import android.location.Location;
 
@@ -15,7 +15,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
-import nwhacks.tutorme.model.Tutor;
+import nwhacks.tutormeupdated.model.Tutor;
 
 /**
  * Created by Stephen-PC on 1/28/2017.
